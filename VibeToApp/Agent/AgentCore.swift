@@ -68,6 +68,47 @@ struct AgentCore {
         }
     }
 
+    /// Performs a real, minimal request using the currently selected provider route.
+    func testConnection() async -> String {
+        let defaults = UserDefaults.standard
+        let mode = AgentMode(rawValue: defaults.string(forKey: "aiMode") ?? "hybrid") ?? .hybrid
+        let cloudURL = defaults.string(forKey: "cloudProviderBaseURL") ?? ""
+        let cloudModel = defaults.string(forKey: "cloudProviderModel") ?? ""
+        let localURL = defaults.string(forKey: "localProviderBaseURL") ?? "http://127.0.0.1:8080/v1"
+
+        do {
+            switch mode {
+            case .cloud:
+                guard !cloudURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                    return "not connected: enter a cloud base URL first."
+                }
+                _ = try await request(baseURL: cloudURL, model: cloudModel.isEmpty ? "default" : cloudModel, prompt: "Reply with exactly: VTA connection successful.", history: [], key: KeychainStore.get("cloud-api-key"))
+                return "connected: cloud provider replied successfully."
+            case .local:
+                _ = try await request(baseURL: localURL, model: "blank", prompt: "Reply with exactly: VTA connection successful.", history: [], key: KeychainStore.get("local-provider-token"))
+                return "connected: local provider replied successfully."
+            case .hybrid:
+                if !cloudURL.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    do {
+                        _ = try await request(baseURL: cloudURL, model: cloudModel.isEmpty ? "default" : cloudModel, prompt: "Reply with exactly: VTA connection successful.", history: [], key: KeychainStore.get("cloud-api-key"))
+                        return "connected: cloud provider replied successfully."
+                    } catch {
+                        do {
+                            _ = try await request(baseURL: localURL, model: "blank", prompt: "Reply with exactly: VTA connection successful.", history: [], key: KeychainStore.get("local-provider-token"))
+                            return "connected: local provider replied; cloud provider failed."
+                        } catch {
+                            return "connection failed: cloud and local providers did not respond. \(error.localizedDescription)"
+                        }
+                    }
+                }
+                _ = try await request(baseURL: localURL, model: "blank", prompt: "Reply with exactly: VTA connection successful.", history: [], key: KeychainStore.get("local-provider-token"))
+                return "connected: local provider replied successfully."
+            }
+        } catch {
+            return "connection failed: \(error.localizedDescription)"
+        }
+    }
+
     private func request(baseURL: String, model: String, prompt: String, history: [(role: String, content: String)], key: String?) async throws -> String {
         let trimmedURL = baseURL.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "/"))
         let endpoint = trimmedURL.hasSuffix("/chat/completions") ? trimmedURL : trimmedURL + "/chat/completions"
