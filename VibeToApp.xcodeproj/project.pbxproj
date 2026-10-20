@@ -109,8 +109,8 @@
 		};
 		000000000000000021 /* Project Debug */ = { isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; }; name = Debug; };
 		000000000000000022 /* Project Release */ = { isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; }; name = Release; };
-		000000000000000023 /* Target Debug */ = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = com.chayce22315.vibetoapprefreshed; INFOPLIST_KEY_CFBundleDisplayName = "Vibe To App: Refreshed"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; GENERATE_INFOPLIST_FILE = YES; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Debug; };
-		000000000000000024 /* Target Release */ = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = com.chayce22315.vibetoapp; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; GENERATE_INFOPLIST_FILE = YES; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Release; };
+		000000000000000023 /* Target Debug */ = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = com.chayce22315.vibetoapprefreshedrefreshed; INFOPLIST_KEY_CFBundleDisplayName = "Vibe To App: Refreshed"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; GENERATE_INFOPLIST_FILE = YES; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Debug; };
+		000000000000000024 /* Target Release */ = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = com.chayce22315.vibetoapprefreshed; INFOPLIST_KEY_CFBundleDisplayName = "Vibe To App: Refreshed"; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; GENERATE_INFOPLIST_FILE = YES; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Release; };
 	};
 	rootObject = 000000000000000001;
 }
