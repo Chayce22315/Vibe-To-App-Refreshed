@@ -379,6 +379,8 @@ private struct ProviderSettingsView: View {
     @AppStorage("aiMode") private var selectedMode = "hybrid"
     @State private var cloudAPIKey = ""
     @State private var localToken = ""
+    @State private var isTestingConnection = false
+    @State private var connectionStatus = ""
 
     var body: some View {
         NavigationStack {
@@ -423,6 +425,31 @@ private struct ProviderSettingsView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+                Section("connection test") {
+                    Button {
+                        Task { await saveAndTestConnection() }
+                    } label: {
+                        HStack {
+                            if isTestingConnection {
+                                ProgressView()
+                            } else {
+                                Image(systemName: "network")
+                            }
+                            Text(isTestingConnection ? "testing provider…" : "save & test connection")
+                        }
+                    }
+                    .disabled(isTestingConnection)
+
+                    if !connectionStatus.isEmpty {
+                        Text(connectionStatus)
+                            .font(.footnote)
+                            .foregroundStyle(connectionStatus.hasPrefix("connected:") ? .green : .secondary)
+                            .textSelection(.enabled)
+                    }
+                    Text("this sends a small test prompt to the selected provider. a successful test confirms a response, not that the provider is free or that every model feature works.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
                 Section {
                     Text("provider credentials are stored in the iphone keychain. cloud providers may charge or enforce quotas; this app does not include paid ai access.")
                         .font(.footnote)
@@ -446,5 +473,18 @@ private struct ProviderSettingsView: View {
                 }
             }
         }
+    
+    @MainActor
+    private func saveAndTestConnection() async {
+        if cloudAPIKey.isEmpty { KeychainStore.delete("cloud-api-key") }
+        else { KeychainStore.set(cloudAPIKey, for: "cloud-api-key") }
+        if localToken.isEmpty { KeychainStore.delete("local-provider-token") }
+        else { KeychainStore.set(localToken, for: "local-provider-token") }
+
+        isTestingConnection = true
+        connectionStatus = ""
+        connectionStatus = await AgentCore().testConnection()
+        isTestingConnection = false
+    }
     }
 }
