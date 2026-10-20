@@ -36,7 +36,7 @@ private struct CompletionResponse: Decodable {
 /// Calls an OpenAI-compatible endpoint when configured. If no provider is
 /// available, it falls back honestly to a local planning stub.
 struct AgentCore {
-    func respond(to prompt: String) async -> String {
+    func respond(to prompt: String, history: [(role: String, content: String)] = []) async -> String {
         let trimmed = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return "give me an idea to work with and we'll get started." }
 
@@ -50,9 +50,9 @@ struct AgentCore {
             switch mode {
             case .cloud:
                 guard !cloudURL.isEmpty else { return demoReply(trimmed, note: "cloud endpoint is not configured") }
-                return try await request(baseURL: cloudURL, model: cloudModel.isEmpty ? "default" : cloudModel, prompt: trimmed, key: KeychainStore.get("cloud-api-key"))
+                return try await request(baseURL: cloudURL, model: cloudModel.isEmpty ? "default" : cloudModel, prompt: trimmed, history: history, key: KeychainStore.get("cloud-api-key"))
             case .local:
-                return try await request(baseURL: localURL, model: "blank", prompt: trimmed, key: KeychainStore.get("local-provider-token"))
+                return try await request(baseURL: localURL, model: "blank", prompt: trimmed, history: history, key: KeychainStore.get("local-provider-token"))
             case .hybrid:
                 if !cloudURL.isEmpty {
                     do {
@@ -68,9 +68,10 @@ struct AgentCore {
         }
     }
 
-    private func request(baseURL: String, model: String, prompt: String, key: String?) async throws -> String {
+    private func request(baseURL: String, model: String, prompt: String, history: [(role: String, content: String)], key: String?) async throws -> String {
         let trimmedURL = baseURL.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-        guard let url = URL(string: trimmedURL + "/chat/completions"),
+        let endpoint = trimmedURL.hasSuffix("/chat/completions") ? trimmedURL : trimmedURL + "/chat/completions"
+        guard let url = URL(string: endpoint),
               let scheme = url.scheme?.lowercased(), scheme == "https" || scheme == "http" else {
             throw ProviderError.invalidURL
         }
@@ -86,7 +87,8 @@ struct AgentCore {
             CompletionRequest(
                 model: model,
                 messages: [
-                    .init(role: "system", content: "you are a helpful coding assistant inside Vibe To App: Refreshed. be honest about capabilities. do not claim files were created or tests were run unless tools actually did that."),
+                    .init(role: "system", content: "you are the ai coding partner inside Vibe To App: Refreshed. think carefully before answering, keep track of the conversation, ask concise clarifying questions only when truly necessary, and give practical step-by-step help. when asked to build an app or game, propose a clear implementation and provide usable code when appropriate. be honest about capabilities: you cannot access or edit the user's project files from this chat endpoint, and must never claim files were created, code was executed, or tests were run unless tools actually did that. use concise markdown and explain errors plainly."),
+                ] + history.suffix(16).map { CompletionRequest.Message(role: $0.role, content: $0.content) } + [
                     .init(role: "user", content: prompt)
                 ],
                 temperature: 0.7,
