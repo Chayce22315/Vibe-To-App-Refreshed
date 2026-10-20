@@ -56,7 +56,7 @@ struct AgentCore {
             case .hybrid:
                 if !cloudURL.isEmpty {
                     do {
-                        return try await request(baseURL: cloudURL, model: cloudModel.isEmpty ? "default" : cloudModel, prompt: trimmed, key: KeychainStore.get("cloud-api-key"))
+                        return try await request(baseURL: cloudURL, model: cloudModel.isEmpty ? "default" : cloudModel, prompt: trimmed, history: history, key: KeychainStore.get("cloud-api-key"))
                     } catch {
                         // If cloud is unavailable, try the configured local endpoint.
                     }
