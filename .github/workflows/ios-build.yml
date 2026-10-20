@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-and-launch:
     runs-on: macos-latest
     steps:
       - name: checkout
@@ -32,16 +32,36 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: package simulator app
+      - name: boot an available iphone simulator
+        run: |
+          DEVICE_ID="$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for group in d["devices"].values() for x in group if x["name"].startswith("iPhone") and x["isAvailable"]))')"
+          echo "SIMULATOR_UDID=$DEVICE_ID" >> "$GITHUB_ENV"
+          xcrun simctl boot "$DEVICE_ID" || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+
+      - name: install and launch app in simulator
         run: |
           APP_PATH="build/DerivedData/Build/Products/Debug-iphonesimulator/VibeToApp.app"
           test -d "$APP_PATH"
-          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" VibeToApp-Simulator.zip
+          xcrun simctl install "$SIMULATOR_UDID" "$APP_PATH"
+          xcrun simctl launch "$SIMULATOR_UDID" com.chayce22315.vibetoapprefreshed
+          mkdir -p test-output
+          xcrun simctl io "$SIMULATOR_UDID" screenshot test-output/iphone-simulator.png
+          xcrun simctl spawn "$SIMULATOR_UDID" log show --last 2m --style compact > test-output/simulator.log || true
 
-      - name: upload simulator build
+      - name: upload simulator app
         uses: actions/upload-artifact@v4
         with:
           name: VibeToApp-iOS-Simulator
-          path: VibeToApp-Simulator.zip
+          path: build/DerivedData/Build/Products/Debug-iphonesimulator/VibeToApp.app
           if-no-files-found: error
+          retention-days: 7
+
+      - name: upload simulator test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: VibeToApp-Simulator-Test-Evidence
+          path: test-output/
+          if-no-files-found: ignore
           retention-days: 7
