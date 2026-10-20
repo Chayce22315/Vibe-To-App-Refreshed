@@ -83,6 +83,7 @@
 				000000000000000018 /* VibeToAppApp.swift in Sources */,
 				000000000000000019 /* ContentView.swift in Sources */,
 				000000000000000020 /* AgentCore.swift in Sources */,
+				000000000000000026 /* KeychainStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +92,7 @@
 		000000000000000018 /* VibeToAppApp.swift in Sources */ = { isa = PBXBuildFile; fileRef = 000000000000000010; };
 		000000000000000019 /* ContentView.swift in Sources */ = { isa = PBXBuildFile; fileRef = 000000000000000011; };
 		000000000000000020 /* AgentCore.swift in Sources */ = { isa = PBXBuildFile; fileRef = 000000000000000012; };
+		000000000000000026 /* KeychainStore.swift in Sources */ = { isa = PBXBuildFile; fileRef = 000000000000000025; };
 		000000000000000002 /* Project configuration list */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
