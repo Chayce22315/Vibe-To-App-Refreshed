@@ -17,18 +17,25 @@ struct ContentView: View {
 
             VStack(spacing: 0) {
                 header
+                    .frame(maxWidth: .infinity)
 
-                if selectedTab == .build {
-                    chatWorkspace
-                } else if selectedTab == .projects {
-                    ProjectsView()
-                } else {
-                    SettingsView(showingProviderSettings: $showingProviderSettings)
+                Group {
+                    if selectedTab == .build {
+                        chatWorkspace
+                    } else if selectedTab == .projects {
+                        ProjectsView()
+                    } else {
+                        SettingsView(showingProviderSettings: $showingProviderSettings)
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 tabBar
+                    .frame(maxWidth: .infinity)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .sheet(isPresented: $showingProviderSettings) {
             ProviderSettingsView()
                 .presentationDetents([.medium, .large])
@@ -49,6 +56,8 @@ struct ContentView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Vibe To App: Refreshed")
                     .font(.system(size: 19, weight: .bold, design: .rounded))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.72)
                     .foregroundStyle(.white)
                 Text("your idea, in motion")
                     .font(.system(size: 12))
@@ -68,8 +77,8 @@ struct ContentView: View {
             }
             .accessibilityLabel("ai provider settings")
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 12)
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
         .padding(.bottom, 16)
     }
 
@@ -115,6 +124,7 @@ struct ContentView: View {
             Text("what are we making today?")
                 .font(.system(size: 34, weight: .bold, design: .rounded))
                 .tracking(-1.1)
+                .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(.white)
 
             Text("apps, games, experiments, the whole idea factory. start with one sentence.")
