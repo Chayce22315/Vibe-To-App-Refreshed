@@ -394,6 +394,9 @@ private struct ProviderSettingsView: View {
                         .foregroundStyle(.secondary)
                 }
                 Section("cloud · openai-compatible") {
+                    Text("connect a model provider that supports the openai chat completions api. enter its api base url, model id, and api key if required. example base url: https://api.openai.com/v1. the app sends your prompts and recent chat history to this provider.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                     TextField("base url (optional)", text: $baseURL)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
@@ -406,6 +409,9 @@ private struct ProviderSettingsView: View {
                         .autocorrectionDisabled()
                 }
                 Section("local endpoint") {
+                    Text("use this for a compatible ai server running on your pc or another device on your wi-fi. on iphone, localhost points to the iphone itself, not your pc.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                     TextField("local server url", text: $localURL)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
