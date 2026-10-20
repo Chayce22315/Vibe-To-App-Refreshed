@@ -28,5 +28,20 @@ jobs:
             -scheme VibeToApp \
             -sdk iphonesimulator \
             -configuration Debug \
+            -derivedDataPath build/DerivedData \
             CODE_SIGNING_ALLOWED=NO \
             build
+
+      - name: package simulator app
+        run: |
+          APP_PATH="build/DerivedData/Build/Products/Debug-iphonesimulator/VibeToApp.app"
+          test -d "$APP_PATH"
+          ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" VibeToApp-Simulator.zip
+
+      - name: upload simulator build
+        uses: actions/upload-artifact@v4
+        with:
+          name: VibeToApp-iOS-Simulator
+          path: VibeToApp-Simulator.zip
+          if-no-files-found: error
+          retention-days: 7
