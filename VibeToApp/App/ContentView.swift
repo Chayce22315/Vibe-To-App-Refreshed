@@ -363,7 +363,9 @@ private struct ProviderSettingsView: View {
     @AppStorage("cloudProviderBaseURL") private var baseURL = ""
     @AppStorage("cloudProviderModel") private var model = ""
     @AppStorage("localProviderBaseURL") private var localURL = "http://127.0.0.1:8080/v1"
-    @State private var selectedMode = "hybrid"
+    @AppStorage("aiMode") private var selectedMode = "hybrid"
+    @State private var cloudAPIKey = ""
+    @State private var localToken = ""
 
     var body: some View {
         NavigationStack {
@@ -386,26 +388,42 @@ private struct ProviderSettingsView: View {
                     TextField("model id (optional)", text: $model)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
+                    SecureField("api key (stored in iphone keychain)", text: $cloudAPIKey)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
                 }
                 Section("local endpoint") {
                     TextField("local server url", text: $localURL)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .keyboardType(.URL)
-                    Text("on iphone, 127.0.0.1 means the iphone itself. a separate computer on your wi-fi needs its local network address.")
+                    SecureField("local server bearer token (optional)", text: $localToken)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                    Text("on iphone, 127.0.0.1 means the iphone itself. for a server on your pc, use its wi-fi ip address and set the same bearer token on the server. never expose the server to the public internet.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
                 Section {
-                    Text("no api key field is included yet. the next step is a secure credential store and direct provider adapters. never put a private key in source code.")
+                    Text("provider credentials are stored in the iphone keychain. cloud providers may charge or enforce quotas; this app does not include paid ai access.")
                         .font(.footnote)
                 }
             }
             .navigationTitle("ai providers")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                cloudAPIKey = KeychainStore.get("cloud-api-key") ?? ""
+                localToken = KeychainStore.get("local-provider-token") ?? ""
+            }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("done") { dismiss() }
+                    Button("done") {
+                        if cloudAPIKey.isEmpty { KeychainStore.delete("cloud-api-key") }
+                        else { KeychainStore.set(cloudAPIKey, for: "cloud-api-key") }
+                        if localToken.isEmpty { KeychainStore.delete("local-provider-token") }
+                        else { KeychainStore.set(localToken, for: "local-provider-token") }
+                        dismiss()
+                    }
                 }
             }
         }
