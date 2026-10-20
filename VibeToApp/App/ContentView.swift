@@ -225,8 +225,12 @@ struct ContentView: View {
         prompt = ""
         isThinking = true
 
+        let priorMessages = messages.dropLast().map { message -> (role: String, content: String) in
+            (message.role == .user ? "user" : "assistant", message.text)
+        }
+
         Task {
-            let reply = await agent.respond(to: text)
+            let reply = await agent.respond(to: text, history: priorMessages)
             await MainActor.run {
                 messages.append(ChatMessage(role: .assistant, text: reply))
                 isThinking = false
