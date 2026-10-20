@@ -1,0 +1,116 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+		000000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = 1; LastUpgradeCheck = 1600; };
+			buildConfigurationList = 000000000000000000000002;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (en, Base, );
+			mainGroup = 000000000000000000000003;
+			productRefGroup = 000000000000000000000004;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (000000000000000000000005, );
+		};
+		000000000000000000000003 /* main group */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000000006 /* VibeToApp */,
+				000000000000000000000007 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		000000000000000000000006 /* VibeToApp */ = {
+			isa = PBXGroup;
+			path = VibeToApp;
+			sourceTree = "<group>";
+			children = (
+				000000000000000000000008 /* App */,
+				000000000000000000000009 /* Agent */,
+			);
+		};
+		000000000000000000000008 /* App */ = {
+			isa = PBXGroup;
+			path = App;
+			sourceTree = "<group>";
+			children = (
+				000000000000000000000010 /* VibeToAppApp.swift */,
+				000000000000000000000011 /* ContentView.swift */,
+			);
+		};
+		000000000000000000000009 /* Agent */ = {
+			isa = PBXGroup;
+			path = Agent;
+			sourceTree = "<group>";
+			children = (000000000000000000000012 /* AgentCore.swift */, );
+		};
+		000000000000000000000007 /* Products */ = {
+			isa = PBXGroup;
+			children = (000000000000000000000013 /* VibeToApp.app */, );
+			name = Products;
+			sourceTree = "<group>";
+		};
+		000000000000000000000010 /* VibeToAppApp.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibeToAppApp.swift; sourceTree = "<group>"; };
+		000000000000000000000011 /* ContentView.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		000000000000000000000012 /* AgentCore.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentCore.swift; sourceTree = "<group>"; };
+		000000000000000013 /* VibeToApp.app */ = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VibeToApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000005 /* VibeToApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000014;
+			buildPhases = (
+				000000000000000015 /* Sources */,
+				000000000000000016 /* Frameworks */,
+				000000000000000017 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = VibeToApp;
+			productName = VibeToApp;
+			productReference = 000000000000000013;
+			productType = "com.apple.product-type.application";
+		};
+		000000000000000015 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000018 /* VibeToAppApp.swift in Sources */,
+				000000000000000019 /* ContentView.swift in Sources */,
+				000000000000000020 /* AgentCore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		000000000000000016 /* Frameworks */ = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		000000000000000017 /* Resources */ = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		000000000000000018 /* VibeToAppApp.swift in Sources */ = { isa = PBXBuildFile; fileRef = 000000000000000010; };
+		000000000000000019 /* ContentView.swift in Sources */ = { isa = PBXBuildFile; fileRef = 000000000000000011; };
+		000000000000000020 /* AgentCore.swift in Sources */ = { isa = PBXBuildFile; fileRef = 000000000000000012; };
+		000000000000000002 /* Project configuration list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000021 /* Debug */,
+				000000000000000022 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000014 /* Target configuration list */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000023 /* Debug */,
+				000000000000000024 /* Release */,
+			);
+			defaultConfigurationName = Release;
+		};
+		000000000000000021 /* Project Debug */ = { isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; }; name = Debug; };
+		000000000000000022 /* Project Release */ = { isa = XCBuildConfiguration; buildSettings = { SDKROOT = iphoneos; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; }; name = Release; };
+		000000000000000023 /* Target Debug */ = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = com.chayce22315.vibetoapprefreshed; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; GENERATE_INFOPLIST_FILE = YES; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Debug; };
+		000000000000000024 /* Target Release */ = { isa = XCBuildConfiguration; buildSettings = { PRODUCT_BUNDLE_IDENTIFIER = com.chayce22315.vibetoapp; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_VERSION = 5.0; IPHONEOS_DEPLOYMENT_TARGET = 17.0; GENERATE_INFOPLIST_FILE = YES; TARGETED_DEVICE_FAMILY = "1,2"; SUPPORTS_MACCATALYST = NO; }; name = Release; };
+	};
+	rootObject = 000000000000000001;
+}
