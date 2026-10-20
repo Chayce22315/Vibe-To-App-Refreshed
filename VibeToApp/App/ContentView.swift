@@ -112,8 +112,7 @@ struct ContentView: View {
 
     private var welcomePanel: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text("what are we
-making today?")
+            Text("what are we making today?")
                 .font(.system(size: 34, weight: .bold, design: .rounded))
                 .tracking(-1.1)
                 .foregroundStyle(.white)
