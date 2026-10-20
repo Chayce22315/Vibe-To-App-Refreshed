@@ -48,7 +48,7 @@
 			isa = PBXGroup;
 			path = Agent;
 			sourceTree = "<group>";
-			children = (000000000000000000000012 /* AgentCore.swift */, );
+			children = (000000000000000000000012 /* AgentCore.swift */, 000000000000000000000025 /* KeychainStore.swift */, );
 		};
 		000000000000000000000007 /* Products */ = {
 			isa = PBXGroup;
@@ -59,6 +59,7 @@
 		000000000000000000000010 /* VibeToAppApp.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibeToAppApp.swift; sourceTree = "<group>"; };
 		000000000000000000000011 /* ContentView.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		000000000000000000000012 /* AgentCore.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentCore.swift; sourceTree = "<group>"; };
+		000000000000000000000025 /* KeychainStore.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		000000000000000013 /* VibeToApp.app */ = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VibeToApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		000000000000000005 /* VibeToApp */ = {
 			isa = PBXNativeTarget;
