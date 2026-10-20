@@ -443,7 +443,7 @@ private struct ProviderSettingsView: View {
                     if !connectionStatus.isEmpty {
                         Text(connectionStatus)
                             .font(.footnote)
-                            .foregroundStyle(connectionStatus.hasPrefix("connected:") ? .green : .secondary)
+                            .foregroundStyle(connectionStatus.hasPrefix("connected:") ? Color.green : Color.secondary)
                             .textSelection(.enabled)
                     }
                     Text("this sends a small test prompt to the selected provider. a successful test confirms a response, not that the provider is free or that every model feature works.")
