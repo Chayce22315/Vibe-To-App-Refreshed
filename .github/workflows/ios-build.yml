@@ -1,0 +1,32 @@
+name: ios simulator build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: select xcode
+        run: |
+          xcodebuild -version
+          xcrun simctl list devices available | head -40
+
+      - name: build simulator app
+        run: |
+          xcodebuild \
+            -project VibeToApp.xcodeproj \
+            -scheme VibeToApp \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            build
